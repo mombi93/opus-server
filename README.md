@@ -2,10 +2,11 @@
 The backend of opus app
 
 ## to do
-1. Set up Express scaffolding
-2. Set up config for dev and production, (use best practice)
-  a. Set up eslint
+1. Set up the database, database schema design
+  npm tutorial
 
-3. Notes on versioning
-4. Set up testing suite
-5. Set up the database, database schema design
+  basic routing
+  
+  a. how to authenticate users
+  b. how to connect to the database with bookshelf..
+  c. query to get list of favrs

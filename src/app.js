@@ -1,55 +1,29 @@
-const express = require('express');
-const path = require('path');
-const logger = require('morgan');
-const bodyParser = require('body-parser');
-const debug = require('debug')('opus-server');
-const http = require('http');
+import debug from 'debug';
+import http from 'http';
+import app from './api/express';
 
-// your controllers here..
-const routes = require('./routes/index');
+debug('opus-server');
 
-const app = express();
+/**
+ * Get port from environment and store in Express.
+ */
 
-// This is will log the incoming network request, on dev env should use 'dev'
-// format. In production, we should use 'combined'.
-const loggerType = app.get('env') === 'production' ? 'combined' : 'dev';
-app.use(logger(loggerType));
+const port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
 
-app.use(bodyParser.json());
+/**
+ * Create HTTP server.
+ */
 
-app.use('/', routes);
+const server = http.createServer(app);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
+/**
+ * Listen on provided port, on all network interfaces.
+ */
 
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.json({
-            message: err.message,
-            error: err
-        });
-    });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.json({
-        message: err.message,
-        error: {}
-    });
-});
-
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -110,24 +84,3 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
-
-/**
- * Get port from environment and store in Express.
- */
-
-const port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
-
-/**
- * Create HTTP server.
- */
-
-const server = http.createServer(app);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);

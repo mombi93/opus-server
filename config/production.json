@@ -1,4 +1,0 @@
-module.exports = {
-  "loggingType": "production",
-  "db": "Some remote location"
-}

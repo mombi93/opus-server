@@ -1,4 +1,0 @@
-module.exports = {
-  "loggingType": "development",
-  "db": "localhost"
-}
